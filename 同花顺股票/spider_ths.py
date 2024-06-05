@@ -78,7 +78,7 @@ class spider:
                 'historystock': '600121%7C*%7C688629%7C*%7C688695%7C*%7C601020',
                 'v': self.get_cookie,
             }
-            t = asyncio.create_task(self.request_two(url, self.headers, self.cookies, 'ShenzhengA',num=1))
+            t = asyncio.create_task(self.request_two(url, self.headers, self.cookies,num=1))
             task.append(t)
 
         for url in self.ShenzhengA_html_store:
@@ -112,9 +112,9 @@ class spider:
                         return rsp.text
                     else:
                         number = re.findall(self.path, url)[0]
-                        with open(f'./shenzheng_a/ShenzhengA_{number}.html', 'w', encoding='utf8') as f:
+                        with open(f'./shangzheng_a/ShangzhengA_{number}.html', 'w', encoding='utf8') as f:
                             f.write(rsp.text)
-                            print(f'ShenzhengA{number}ok')
+                            print(f'ShangzhengA{number}ok')
 
         else:
             async with sem:
@@ -136,12 +136,12 @@ class spider:
         tasks=[]
         if  type=='ShangzhengA':
             for i in range(1, 112):
-                t=asyncio.create_task(self.get_deep_(path=f'shangzheng_a/ShangzhengA_{i}.html'))
+                t=asyncio.create_task(self.get_deep_(path=f'./shangzheng_a/ShangzhengA_{i}.html'))
                 tasks.append(t)
 
         else:
             for i in range(1,144):
-                t = asyncio.create_task(self.get_deep_(path=f'shenzheng_a/ShenzhengA_{i}.html'))
+                t = asyncio.create_task(self.get_deep_(path=f'./shenzheng_a/ShenzhengA_{i}.html'))
                 tasks.append(t)
 
         result=await asyncio.gather(*tasks)
@@ -254,7 +254,7 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     # loop.run_until_complete(a.get_all_html())
     # loop = asyncio.get_event_loop()
-    loop.run_until_complete(a.save_json(type='ShenzhengA'))
-    # loop.run_until_complete(a.save_json())
+    # loop.run_until_complete(a.save_json(type='ShenzhengA'))
+    loop.run_until_complete(a.save_json())
     # print(a.res)
 
